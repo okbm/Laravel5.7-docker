@@ -14,3 +14,5 @@ $ composer dump-autoload
 ```
 
 [チートシート](https://laravel.gen.tr/cheatsheet/)
+
+- https://blog.capilano-fw.com/?p=1418
