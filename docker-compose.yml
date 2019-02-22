@@ -1,0 +1,39 @@
+version: '3'
+services:
+  web:
+    image: nginx:1.13.5-alpine
+    ports:
+      - "80:80"
+    links:
+      - app
+    volumes:
+      - ./web/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www/html
+  app:
+    build: ./
+    env_file: .env
+    links:
+      - db
+    volumes:
+      - ./:/var/www/html
+  db:
+    image: mysql:5.7.19
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    links:
+      - db:mysql
+
+volumes:
+  db-data:
