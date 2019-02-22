@@ -40,7 +40,12 @@
                 }
             },
             mounted() {
+                console.log("mounted");
                 this.getMessages();
+                Echo.channel('chat').listen('MessageCreated', (e) => {
+                    console.log("listen");
+                    this.getMessages();
+                });
             }
         });
 
